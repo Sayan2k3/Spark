@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone 15 Pro - Walmart</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <!-- Top bar -->
+            <div class="top-bar">
+                <div class="top-left">
+                    <span>How do you want your items?</span>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sacramento, 95829</span>
+                    </div>
+                </div>
+                <div class="top-right">
+                    <span>Hi! Sign in</span>
+                    <span>Account</span>
+                </div>
+            </div>
+
+            <!-- Main header -->
+            <div class="main-header">
+                <div class="header-left">
+                    <a href="/" class="logo">Walmart</a>
+                    
+                    <div class="ai-agent-toggle">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Agent</span>
+                        <div class="toggle-switch" id="agentToggle">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search everything at Walmart online and in store">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="header-right">
+                    <button class="icon-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button class="icon-btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="navigation">
+                <button class="nav-item departments-btn">
+                    <i class="fas fa-bars"></i>
+                    <span>Departments</span>
+                </button>
+                <a href="products.html" class="nav-item">Products</a>
+                <a href="#" class="nav-item">Electronics</a>
+                <a href="#" class="nav-item">Phones</a>
+                <a href="#" class="nav-item">Fashion</a>
+                <a href="#" class="nav-item">Home</a>
+                <a href="#" class="nav-item">Grocery</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- AI Agent Banner -->
+    <div class="ai-banner" id="aiBanner" style="display: none;">
+        <div class="container">
+            <div class="ai-banner-content">
+                <i class="fas fa-robot"></i>
+                <span class="ai-text">AI Agent Mode Active</span>
+                <span class="separator">•</span>
+                <span>Getting smart recommendations for this product</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <nav>
+                <a href="/">Home</a>
+                <span>/</span>
+                <a href="products.html">Electronics</a>
+                <span>/</span>
+                <span>Phones</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Product Detail -->
+    <main class="product-detail">
+        <div class="container">
+            <div class="product-layout">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <div class="main-image">
+                        <img id="mainProductImage" src="https://i0.wp.com/www.icenter-iraq.com/wp-content/uploads/2023/09/iPhone_15_Pink_PDP_Image_Position-1__en-ME-scaled.jpg?fit=2560%2C2560&ssl=1" alt="iPhone 15 Pro">
+                    </div>
+                    <div class="thumbnail-images">
+                        <img class="thumbnail active" src="https://i0.wp.com/www.icenter-iraq.com/wp-content/uploads/2023/09/iPhone_15_Pink_PDP_Image_Position-1__en-ME-scaled.jpg?fit=2560%2C2560&ssl=1" onclick="changeMainImage(this)" alt="View 1">
+                        <img class="thumbnail" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&h=100&fit=crop" onclick="changeMainImage(this)" alt="View 2">
+                        <img class="thumbnail" src="https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=100&h=100&fit=crop" onclick="changeMainImage(this)" alt="View 3">
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <h1>iPhone 15 Pro</h1>
+                    
+                    <div class="rating-section">
+                        <div class="stars">★★★★★</div>
+                        <span class="rating-number">4.8</span>
+                        <span class="review-count">(2,847 reviews)</span>
+                    </div>
+
+                    <div class="price-section">
+                        <span class="current-price">$999.00</span>
+                        <span class="original-price">$1,099.00</span>
+                        <span class="savings">Save $100</span>
+                    </div>
+
+                    <p class="product-description">
+                        Experience the iPhone 15 Pro with the latest A17 Pro chip, advanced camera system, and titanium design. 
+                        Available in multiple colors with industry-leading performance and battery life.
+                    </p>
+
+                    <!-- Quantity and Add to Cart -->
+                    <div class="purchase-section">
+                        <div class="quantity-selector">
+                            <label>Quantity:</label>
+                            <div class="quantity-controls">
+                                <button onclick="decreaseQuantity()">-</button>
+                                <input type="number" id="quantity" value="1" min="1">
+                                <button onclick="increaseQuantity()">+</button>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="add-to-cart-btn" onclick="addToCart()">
+                                <i class="fas fa-shopping-cart"></i>
+                                Add to Cart
+                            </button>
+                            <button class="wishlist-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="share-btn">
+                                <i class="fas fa-share"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Info -->
+                    <div class="shipping-info">
+                        <div class="shipping-item">
+                            <i class="fas fa-truck"></i>
+                            <div>
+                                <strong>Free shipping</strong>
+                                <p>Get it by tomorrow with free 2-day shipping</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Features -->
+                    <div class="features-section">
+                        <h3>Key Features</h3>
+                        <ul class="features-list">
+                            <li>A17 Pro chip with 6-core GPU</li>
+                            <li>Pro camera system with 48MP Main camera</li>
+                            <li>6.1-inch Super Retina XDR display</li>
+                            <li>Titanium design with Ceramic Shield front</li>
+                            <li>Up to 23 hours video playback</li>
+                            <li>5G capable</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details Tabs -->
+            <div class="product-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-button active" onclick="showTab('specifications')">Specifications</button>
+                    <button class="tab-button" onclick="showTab('reviews')">Reviews</button>
+                    <button class="tab-button" onclick="showTab('warranty')">Warranty</button>
+                </div>
+
+                <div class="tab-content">
+                    <div id="specifications" class="tab-panel active">
+                        <div class="specifications-grid">
+                            <div class="spec-item">
+                                <span class="spec-label">Display:</span>
+                                <span class="spec-value">6.1-inch Super Retina XDR</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Chip:</span>
+                                <span class="spec-value">A17 Pro</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Storage:</span>
+                                <span class="spec-value">128GB</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Camera:</span>
+                                <span class="spec-value">48MP Main, 12MP Ultra Wide</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Battery:</span>
+                                <span class="spec-value">Up to 23 hours video</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Material:</span>
+                                <span class="spec-value">Titanium</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="reviews" class="tab-panel">
+                        <p>Customer reviews and ratings will be displayed here.</p>
+                    </div>
+                    
+                    <div id="warranty" class="tab-panel">
+                        <p>Warranty information and terms will be displayed here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Get to Know Us</h4>
+                    <ul>
+                        <li><a href="#">About Walmart</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press Center</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Make Money with Us</h4>
+                    <ul>
+                        <li><a href="#">Sell on Walmart</a></li>
+                        <li><a href="#">Marketplace</a></li>
+                        <li><a href="#">Advertise</a></li>
+                        <li><a href="#">Supply Chain</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Let Us Help You</h4>
+                    <ul>
+                        <li><a href="#">Your Account</a></li>
+                        <li><a href="#">Your Orders</a></li>
+                        <li><a href="#">Returns & Replacements</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect with Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Walmart Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="product.js"></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walmart - Save Money. Live Better.</title>
+    <meta name="description" content="Shop for Everything You Need at Everyday Low Prices">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <!-- Top bar -->
+            <div class="top-bar">
+                <div class="top-left">
+                    <span>How do you want your items?</span>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sacramento, 95829</span>
+                    </div>
+                </div>
+                <div class="top-right">
+                    <span>Hi! Sign in</span>
+                    <span>Account</span>
+                </div>
+            </div>
+
+            <!-- Main header -->
+            <div class="main-header">
+                <div class="header-left">
+                    <a href="/" class="logo">Walmart</a>
+                    
+                    <div class="ai-agent-toggle">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Agent</span>
+                        <div class="toggle-switch" id="agentToggle">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search everything at Walmart online and in store">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="header-right">
+                    <button class="icon-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button class="icon-btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="navigation">
+                <button class="nav-item departments-btn">
+                    <i class="fas fa-bars"></i>
+                    <span>Departments</span>
+                </button>
+                <a href="products.html" class="nav-item">Products</a>
+                <a href="#" class="nav-item">Electronics</a>
+                <a href="#" class="nav-item">Phones</a>
+                <a href="#" class="nav-item">Fashion</a>
+                <a href="#" class="nav-item">Home</a>
+                <a href="#" class="nav-item">Grocery</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- AI Agent Banner -->
+    <div class="ai-banner" id="aiBanner" style="display: none;">
+        <div class="container">
+            <div class="ai-banner-content">
+                <i class="fas fa-robot"></i>
+                <span class="ai-text">AI Agent Mode Active</span>
+                <span class="separator">•</span>
+                <span>Getting smart recommendations for you</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Save Money. Live Better.</h1>
+                    <p>Shop for everything you need at everyday low prices</p>
+                    <button class="cta-btn">Shop Now</button>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop" alt="Shopping" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <h2>Shop by Category</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=300&h=200&fit=crop" alt="Electronics">
+                    <h3>Electronics</h3>
+                    <p>Latest gadgets and tech</p>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&h=200&fit=crop" alt="Fashion">
+                    <h3>Fashion</h3>
+                    <p>Trendy clothes for all</p>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=200&fit=crop" alt="Home">
+                    <h3>Home & Garden</h3>
+                    <p>Everything for your home</p>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&h=200&fit=crop" alt="Grocery">
+                    <h3>Grocery</h3>
+                    <p>Fresh food and essentials</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <h2>Featured Products</h2>
+            <div class="products-grid">
+                <div class="product-card" onclick="goToProduct(1)">
+                    <img src="https://images.unsplash.com/photo-1592286975-4d44c99b0eef?w=300&h=300&fit=crop" alt="iPhone 15 Pro">
+                    <div class="product-info">
+                        <h3>iPhone 15 Pro</h3>
+                        <div class="price">
+                            <span class="current-price">$999.00</span>
+                            <span class="original-price">$1099.00</span>
+                        </div>
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(2847)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=300&fit=crop" alt="MacBook">
+                    <div class="product-info">
+                        <h3>MacBook Air M2</h3>
+                        <div class="price">
+                            <span class="current-price">$1199.00</span>
+                        </div>
+                        <div class="rating">
+                            <span class="stars">★★★★☆</span>
+                            <span>(1523)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop" alt="Headphones">
+                    <div class="product-info">
+                        <h3>Sony WH-1000XM4</h3>
+                        <div class="price">
+                            <span class="current-price">$279.99</span>
+                            <span class="original-price">$349.99</span>
+                        </div>
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(3241)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop" alt="Watch">
+                    <div class="product-info">
+                        <h3>Apple Watch Series 9</h3>
+                        <div class="price">
+                            <span class="current-price">$399.00</span>
+                        </div>
+                        <div class="rating">
+                            <span class="stars">★★★★★</span>
+                            <span>(1876)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Get to Know Us</h4>
+                    <ul>
+                        <li><a href="#">About Walmart</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press Center</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Make Money with Us</h4>
+                    <ul>
+                        <li><a href="#">Sell on Walmart</a></li>
+                        <li><a href="#">Marketplace</a></li>
+                        <li><a href="#">Advertise</a></li>
+                        <li><a href="#">Supply Chain</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Let Us Help You</h4>
+                    <ul>
+                        <li><a href="#">Your Account</a></li>
+                        <li><a href="#">Your Orders</a></li>
+                        <li><a href="#">Returns & Replacements</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect with Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Walmart Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

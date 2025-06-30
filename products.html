@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Walmart</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <!-- Top bar -->
+            <div class="top-bar">
+                <div class="top-left">
+                    <span>How do you want your items?</span>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sacramento, 95829</span>
+                    </div>
+                </div>
+                <div class="top-right">
+                    <span>Hi! Sign in</span>
+                    <span>Account</span>
+                </div>
+            </div>
+
+            <!-- Main header -->
+            <div class="main-header">
+                <div class="header-left">
+                    <a href="/" class="logo">Walmart</a>
+                    
+                    <div class="ai-agent-toggle">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Agent</span>
+                        <div class="toggle-switch" id="agentToggle">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search everything at Walmart online and in store">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="header-right">
+                    <button class="icon-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button class="icon-btn cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="navigation">
+                <button class="nav-item departments-btn">
+                    <i class="fas fa-bars"></i>
+                    <span>Departments</span>
+                </button>
+                <a href="products.html" class="nav-item active">Products</a>
+                <a href="#" class="nav-item">Electronics</a>
+                <a href="#" class="nav-item">Phones</a>
+                <a href="#" class="nav-item">Fashion</a>
+                <a href="#" class="nav-item">Home</a>
+                <a href="#" class="nav-item">Grocery</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- AI Agent Banner -->
+    <div class="ai-banner" id="aiBanner" style="display: none;">
+        <div class="container">
+            <div class="ai-banner-content">
+                <i class="fas fa-robot"></i>
+                <span class="ai-text">AI Agent Mode Active</span>
+                <span class="separator">•</span>
+                <span>Finding the best products for you</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <nav>
+                <a href="/">Home</a>
+                <span>/</span>
+                <span>Products</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Products Page Content -->
+    <main class="products-page">
+        <div class="container">
+            <div class="page-header">
+                <h1>All Products</h1>
+                <p>Discover amazing deals on everything you need</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label for="category">Category:</label>
+                    <select id="category">
+                        <option value="">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="home">Home & Garden</option>
+                        <option value="grocery">Grocery</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="priceRange">Price Range:</label>
+                    <select id="priceRange">
+                        <option value="">All Prices</option>
+                        <option value="0-50">$0 - $50</option>
+                        <option value="50-200">$50 - $200</option>
+                        <option value="200-500">$200 - $500</option>
+                        <option value="500+">$500+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sortBy">Sort by:</label>
+                    <select id="sortBy">
+                        <option value="relevance">Relevance</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Customer Rating</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Get to Know Us</h4>
+                    <ul>
+                        <li><a href="#">About Walmart</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press Center</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Make Money with Us</h4>
+                    <ul>
+                        <li><a href="#">Sell on Walmart</a></li>
+                        <li><a href="#">Marketplace</a></li>
+                        <li><a href="#">Advertise</a></li>
+                        <li><a href="#">Supply Chain</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Let Us Help You</h4>
+                    <ul>
+                        <li><a href="#">Your Account</a></li>
+                        <li><a href="#">Your Orders</a></li>
+                        <li><a href="#">Returns & Replacements</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect with Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Walmart Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="products.js"></script>
+</body>
+</html>
