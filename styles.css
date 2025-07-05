@@ -980,3 +980,109 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* AI Agent Styles */
+.ai-command-input input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    background: transparent;
+}
+
+.ai-command-input button {
+    background: #0071ce;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.ai-command-input button:hover {
+    background: #004c91;
+}
+
+.ai-summary-modal {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.ai-summary-content {
+    text-align: center;
+}
+
+.ai-summary-content h3 {
+    color: #0071ce;
+    margin-bottom: 15px;
+}
+
+.summary-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 15px 0;
+    font-weight: 600;
+}
+
+.recommendation {
+    color: #27AE60;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.ai-summary-content button {
+    background: #0071ce;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+.ai-summary-content button:hover {
+    background: #004c91;
+}
+
+.ai-suggestions {
+    animation: slideInRight 0.3s ease-out;
+}
+
+.ai-suggestions p {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.ai-suggestions ul {
+    list-style: none;
+    padding: 0;
+}
+
+.ai-suggestions li {
+    padding: 5px 0;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.ai-suggestions li:hover {
+    color: #0071ce;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
