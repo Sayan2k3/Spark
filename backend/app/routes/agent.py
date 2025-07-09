@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
+import httpx
 from app.models import (
     CommandRequest, AgentResponse, ExtractRequest, 
     SummarizeRequest, ActionRequest, ActionType
@@ -89,6 +90,63 @@ async def process_command(request: CommandRequest):
                 message=f"Navigating to {data.get('target', 'requested page')}",
                 navigation=navigation,
                 status="success"
+            )
+        
+        elif action_type == ActionType.COMPARE:
+            # Handle product comparison
+            cart_items = request.context.get("cart_items", [])
+            criteria = data.get("criteria", ["performance", "camera", "battery"])
+            
+            if data.get("use_cart", True) and len(cart_items) < 2:
+                return AgentResponse(
+                    action=action_type,
+                    message="Please add at least 2 products to your cart to compare them.",
+                    status="error",
+                    suggestions=["Add more products to cart", "Search for phones"]
+                )
+            
+            # Make internal API call to comparison endpoint
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    "http://localhost:8000/api/agent/compare",
+                    json={"cart_items": cart_items, "criteria": criteria}
+                )
+                comparison_data = response.json()
+            
+            return AgentResponse(
+                action=action_type,
+                message="Here's the detailed comparison:",
+                data=comparison_data,
+                summary=comparison_data.get("summary", ""),
+                status="success"
+            )
+        
+        elif action_type == ActionType.RECOMMEND:
+            # Handle product recommendations
+            budget = data.get("budget", 30000)
+            priorities = data.get("priorities", ["performance", "camera", "battery"])
+            
+            # Make internal API call to recommendation endpoint
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    "http://localhost:8000/api/agent/recommend",
+                    json={"budget": budget, "priorities": priorities, "include_stores": True}
+                )
+                recommendation_data = response.json()
+            
+            best_choice = recommendation_data.get("best_choice")
+            message = f"Based on your ₹{budget} budget and priorities ({', '.join(priorities)}), "
+            if best_choice:
+                message += f"I recommend the {best_choice['product']}."
+            else:
+                message += "I couldn't find suitable options."
+            
+            return AgentResponse(
+                action=action_type,
+                message=message,
+                data=recommendation_data,
+                status="success",
+                suggestions=["Check nearby stores", "Compare these phones", "Add to cart"]
             )
         
         else:

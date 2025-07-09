@@ -1,5 +1,6 @@
 from typing import Dict, Any, List
 import random
+from .mock_data import get_mock_products
 
 class ActionHandler:
     """Handle various agent actions"""

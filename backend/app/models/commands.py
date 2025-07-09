@@ -9,6 +9,8 @@ class ActionType(str, Enum):
     SUMMARIZE = "summarize"
     EXTRACT = "extract"
     SHOW_ORDERS = "show_orders"
+    COMPARE = "compare"
+    RECOMMEND = "recommend"
     UNKNOWN = "unknown"
 
 class CommandRequest(BaseModel):

@@ -80,6 +80,18 @@ class AIAgent {
                     this.displayOrders(response.data.orders);
                 }
                 break;
+            
+            case 'compare':
+                if (response.data) {
+                    this.displayComparison(response.data);
+                }
+                break;
+            
+            case 'recommend':
+                if (response.data) {
+                    this.displayRecommendations(response.data);
+                }
+                break;
         }
 
         // Show suggestions if available
@@ -194,6 +206,302 @@ class AIAgent {
                 suggestionsDiv.remove();
             }
         }, 10000);
+    }
+
+    displayComparison(comparisonData) {
+        // Create a comprehensive comparison modal
+        const modal = document.createElement('div');
+        modal.className = 'ai-comparison-modal';
+        
+        let comparisonHTML = '<div class="comparison-content"><h2>Product Comparison</h2>';
+        
+        // Add summary
+        if (comparisonData.summary) {
+            comparisonHTML += `<div class="comparison-summary">${comparisonData.summary.replace(/\n/g, '<br>')}</div>`;
+        }
+        
+        // Create comparison table
+        if (comparisonData.comparison) {
+            comparisonHTML += '<table class="comparison-table"><thead><tr><th>Feature</th>';
+            
+            // Add product names as headers
+            const products = Object.values(comparisonData.comparison);
+            products.forEach(product => {
+                comparisonHTML += `<th>${product.name}<br><span class="price">₹${product.price}</span></th>`;
+            });
+            comparisonHTML += '</tr></thead><tbody>';
+            
+            // Add comparison rows
+            const criteria = Object.keys(products[0].specs || {});
+            criteria.forEach(criterion => {
+                comparisonHTML += `<tr><td><strong>${criterion}</strong></td>`;
+                products.forEach(product => {
+                    const spec = product.specs[criterion] || 'N/A';
+                    const reviewData = product.review_analysis[criterion];
+                    comparisonHTML += '<td>';
+                    comparisonHTML += `<div>${spec}</div>`;
+                    if (reviewData && reviewData.average_rating) {
+                        comparisonHTML += `<div class="rating">⭐ ${reviewData.average_rating.toFixed(1)}/5</div>`;
+                    }
+                    comparisonHTML += '</td>';
+                });
+                comparisonHTML += '</tr>';
+            });
+            
+            comparisonHTML += '</tbody></table>';
+        }
+        
+        // Add recommendation
+        if (comparisonData.recommendation) {
+            const rec = comparisonData.recommendation;
+            comparisonHTML += `
+                <div class="ai-recommendation">
+                    <h3>AI Recommendation</h3>
+                    <p><strong>${rec.recommended_product}</strong></p>
+                    <p>${rec.reason}</p>
+                </div>
+            `;
+        }
+        
+        comparisonHTML += '<button class="close-btn" onclick="this.parentElement.parentElement.remove()">Close</button></div>';
+        
+        modal.innerHTML = comparisonHTML;
+        
+        // Style the modal
+        modal.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            z-index: 10001;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            width: 800px;
+        `;
+        
+        // Add CSS for the table
+        const style = document.createElement('style');
+        style.textContent = `
+            .comparison-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+            .comparison-table th, .comparison-table td {
+                padding: 12px;
+                text-align: left;
+                border: 1px solid #ddd;
+            }
+            .comparison-table th {
+                background-color: #f8f9fa;
+                font-weight: 600;
+            }
+            .comparison-table .price {
+                color: #0071dc;
+                font-size: 14px;
+            }
+            .comparison-table .rating {
+                color: #f57c00;
+                font-size: 12px;
+                margin-top: 4px;
+            }
+            .comparison-summary {
+                margin: 20px 0;
+                padding: 15px;
+                background: #f0f2f5;
+                border-radius: 8px;
+                white-space: pre-line;
+            }
+            .ai-recommendation {
+                margin: 20px 0;
+                padding: 20px;
+                background: #e3f2fd;
+                border-radius: 8px;
+                border-left: 4px solid #0071dc;
+            }
+            .close-btn {
+                margin-top: 20px;
+                padding: 10px 20px;
+                background: #0071dc;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        document.body.appendChild(modal);
+    }
+    
+    displayRecommendations(recommendationData) {
+        // Create recommendations modal
+        const modal = document.createElement('div');
+        modal.className = 'ai-recommendations-modal';
+        
+        let html = '<div class="recommendations-content"><h2>AI Recommendations</h2>';
+        
+        // Budget info
+        html += `<p class="budget-info">Based on your budget of ₹${recommendationData.budget} and priorities: ${recommendationData.priorities_analyzed.join(', ')}</p>`;
+        
+        // Display recommendations
+        if (recommendationData.recommendations && recommendationData.recommendations.length > 0) {
+            html += '<div class="recommendations-list">';
+            
+            recommendationData.recommendations.forEach((rec, index) => {
+                html += `
+                    <div class="recommendation-card">
+                        <h3>${index + 1}. ${rec.product}</h3>
+                        <div class="rec-price">₹${rec.online_price}</div>
+                        <div class="scores">
+                `;
+                
+                // Show scores for each priority
+                Object.entries(rec.score).forEach(([feature, score]) => {
+                    html += `<div class="score-item">${feature}: ${score.toFixed(1)}/100</div>`;
+                });
+                
+                html += `
+                        </div>
+                        <div class="overall-score">Overall Score: ${rec.overall_score}/100</div>
+                `;
+                
+                // Show store prices if available
+                if (rec.store_prices && rec.store_prices.length > 0) {
+                    html += '<div class="store-prices"><h4>Available at nearby stores:</h4>';
+                    rec.store_prices.forEach(store => {
+                        html += `
+                            <div class="store-item">
+                                <span>${store.store} (${store.distance})</span>
+                                <span>₹${store.price}</span>
+                                ${store.savings > 0 ? `<span class="savings">Save ₹${store.savings}</span>` : ''}
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+                
+                html += '</div>';
+            });
+            
+            html += '</div>';
+        }
+        
+        // Best choice
+        if (recommendationData.best_choice) {
+            const best = recommendationData.best_choice;
+            html += `
+                <div class="best-choice">
+                    <h3>🏆 Best Choice: ${best.product}</h3>
+                    <p>Score: ${best.overall_score}/100</p>
+                    <p>Why: ${best.reasons.join(', ')}</p>
+                    ${best.best_store_deal ? `
+                        <p class="best-deal">Best deal at ${best.best_store_deal.store} - Save ₹${best.savings}</p>
+                    ` : ''}
+                </div>
+            `;
+        }
+        
+        html += '<button class="close-btn" onclick="this.parentElement.parentElement.remove()">Close</button></div>';
+        
+        modal.innerHTML = html;
+        
+        // Style the modal
+        modal.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            z-index: 10001;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            width: 700px;
+        `;
+        
+        // Add CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            .recommendations-content { font-family: Arial, sans-serif; }
+            .budget-info { 
+                margin: 20px 0; 
+                padding: 15px; 
+                background: #f8f9fa; 
+                border-radius: 8px; 
+            }
+            .recommendation-card {
+                margin: 20px 0;
+                padding: 20px;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                background: #fafafa;
+            }
+            .rec-price {
+                font-size: 24px;
+                color: #0071dc;
+                font-weight: bold;
+                margin: 10px 0;
+            }
+            .scores {
+                display: flex;
+                gap: 15px;
+                margin: 10px 0;
+                flex-wrap: wrap;
+            }
+            .score-item {
+                padding: 5px 10px;
+                background: #e3f2fd;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+            .overall-score {
+                margin: 10px 0;
+                font-weight: bold;
+                color: #388e3c;
+            }
+            .store-prices {
+                margin-top: 15px;
+                padding: 15px;
+                background: #f5f5f5;
+                border-radius: 8px;
+            }
+            .store-item {
+                display: flex;
+                justify-content: space-between;
+                margin: 8px 0;
+                padding: 8px;
+                background: white;
+                border-radius: 4px;
+            }
+            .savings {
+                color: #388e3c;
+                font-weight: bold;
+            }
+            .best-choice {
+                margin: 30px 0;
+                padding: 20px;
+                background: #e8f5e9;
+                border-radius: 8px;
+                border: 2px solid #4caf50;
+            }
+            .best-deal {
+                color: #388e3c;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        document.body.appendChild(modal);
     }
 
     updateContext(key, value) {
