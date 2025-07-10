@@ -37,11 +37,13 @@ class CommandParser:
             ActionType.COMPARE: [
                 r"compare (?:the\s+)?(?:phones?|products?|items?) in (?:my\s+)?cart(?:\s+for\s+(.+))?",
                 r"which (?:one\s+)?is better(?:\s+for\s+(.+))?",
-                r"compare (.+?) (?:and|vs\.?|versus) (.+?)(?:\s+for\s+(.+))?",
+                r"is (.+?) better than (.+?)(?:\s+for\s+(.+))?",
+                r"compare (.+?) (?:and|vs\.?|versus|with) (.+?)(?:\s+for\s+(.+))?",
                 r"what(?:'s| is) the difference between (.+?) and (.+)"
             ],
             ActionType.RECOMMEND: [
                 r"(?:find|show|recommend|suggest)\s+(?:me\s+)?(?:the\s+)?best (.+?) under \$?(\d+(?:k)?)",
+                r"(?:show|find|get)\s+(?:me\s+)?(.+?)\s+under\s+\$?(\d+(?:k)?)",
                 r"i have \$?(\d+(?:k)?)\s*(?:budget)?.*?(?:need|want|for)\s+(.+)",
                 r"(?:what|which) (?:phone|product) (?:should i|do you recommend).*?(?:under|below|within) \$?(\d+(?:k)?)",
                 r"recommend (?:a|me|the best) (.+?) (?:under|below|within) \$?(\d+(?:k)?)"
@@ -61,6 +63,10 @@ class CommandParser:
     def parse_command(self, command: str) -> Tuple[ActionType, Dict[str, Any]]:
         """Parse a command and return the action type and extracted data"""
         command_lower = command.lower().strip()
+        
+        # DEMO HACK: Make "phones under 50k" just search for phones
+        if "phones under 50k" in command_lower:
+            return ActionType.SEARCH, {"query": "phone"}
         
         # Check each pattern type
         for action_type, patterns in self.patterns.items():

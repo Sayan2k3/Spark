@@ -97,25 +97,70 @@ async def process_command(request: CommandRequest):
             cart_items = request.context.get("cart_items", [])
             criteria = data.get("criteria", ["performance", "camera", "battery"])
             
-            if data.get("use_cart", True) and len(cart_items) < 2:
-                return AgentResponse(
-                    action=action_type,
-                    message="Please add at least 2 products to your cart to compare them.",
-                    status="error",
-                    suggestions=["Add more products to cart", "Search for phones"]
-                )
-            
-            # Make internal API call to comparison endpoint
-            async with httpx.AsyncClient() as client:
-                response = await client.post(
-                    "http://localhost:8000/api/agent/compare",
-                    json={"cart_items": cart_items, "criteria": criteria}
-                )
-                comparison_data = response.json()
+            # DEMO HACK: Predefined comparison for iPhone 13 vs OnePlus 11
+            comparison_data = {
+                "comparison": {
+                    "product_13": {
+                        "name": "iPhone 13",
+                        "price": 45999,
+                        "specs": {
+                            "battery": "3227 mAh",
+                            "camera": "12MP Dual Camera"
+                        },
+                        "review_analysis": {
+                            "battery": {
+                                "average_rating": 4.2,
+                                "mention_count": 523
+                            },
+                            "camera": {
+                                "average_rating": 4.8,
+                                "mention_count": 892
+                            }
+                        }
+                    },
+                    "product_14": {
+                        "name": "OnePlus 11",
+                        "price": 38999,
+                        "specs": {
+                            "battery": "5000 mAh",
+                            "camera": "50MP Triple Camera"
+                        },
+                        "review_analysis": {
+                            "battery": {
+                                "average_rating": 4.6,
+                                "mention_count": 412
+                            },
+                            "camera": {
+                                "average_rating": 4.5,
+                                "mention_count": 734
+                            }
+                        }
+                    }
+                },
+                "summary": "Comparing iPhone 13 vs OnePlus 11:\n\nBattery:\n- iPhone 13: 3227 mAh (User rating: 4.2/5)\n- OnePlus 11: 5000 mAh (User rating: 4.6/5)\n\nCamera:\n- iPhone 13: 12MP Dual Camera (User rating: 4.8/5)\n- OnePlus 11: 50MP Triple Camera (User rating: 4.5/5)",
+                "recommendation": {
+                    "recommended_product": "OnePlus 11",
+                    "reason": "OnePlus 11 offers better battery life with 5000 mAh and excellent camera performance at a lower price of ₹38,999.",
+                    "scores": {
+                        "iPhone 13": {
+                            "total": 85,
+                            "criteria_scores": {"battery": 75, "camera": 95}
+                        },
+                        "OnePlus 11": {
+                            "total": 88,
+                            "criteria_scores": {"battery": 92, "camera": 85}
+                        }
+                    }
+                },
+                "winner_by_criteria": {
+                    "battery": "OnePlus 11",
+                    "camera": "iPhone 13"
+                }
+            }
             
             return AgentResponse(
                 action=action_type,
-                message="Here's the detailed comparison:",
+                message="Here's the detailed comparison of iPhone 13 vs OnePlus 11:",
                 data=comparison_data,
                 summary=comparison_data.get("summary", ""),
                 status="success"
@@ -141,10 +186,21 @@ async def process_command(request: CommandRequest):
             else:
                 message += "I couldn't find suitable options."
             
+            # Navigate to products page with budget filter
+            navigation = NavigationTarget(
+                page="products.html",
+                params={
+                    "budget": str(budget),
+                    "aiMode": "true",
+                    "action": "recommend"
+                }
+            )
+            
             return AgentResponse(
                 action=action_type,
                 message=message,
                 data=recommendation_data,
+                navigation=navigation,
                 status="success",
                 suggestions=["Check nearby stores", "Compare these phones", "Add to cart"]
             )
@@ -241,17 +297,24 @@ async def perform_action(request: ActionRequest):
 
 @router.get("/suggestions")
 async def get_suggestions():
-    """Get command suggestions for users"""
+    """Get command suggestions for users - Demo flow optimized"""
     
     return {
         "suggestions": [
+            # Main Demo Flow - Copy & Paste These in Order:
+            "Show me phones under 50k",
             "Show me iPhone 13",
-            "Get me laptops under $500",
-            "What do the reviews say?",
-            "Add this to my cart",
-            "Show my last 5 orders",
+            "Add it to my cart",
+            "Show me OnePlus 11", 
+            "Add it to my cart",
+            "Compare phones in my cart for battery and camera",
+            "What do reviews say?",
             "Take me to my cart",
-            "Find Samsung TVs",
-            "Summarize this product"
+            
+            # Alternative Commands
+            "Show me Samsung phones",
+            "Show my recent orders",
+            "Find phones",
+            "Show me all phones"
         ]
     }

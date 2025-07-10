@@ -16,6 +16,19 @@ function initializeAgentToggle() {
     const aiBanner = document.getElementById('aiBanner');
     
     if (agentToggle) {
+        // Check for saved AI mode state from localStorage
+        // Support both keys for compatibility
+        const savedAIModeEnabled = localStorage.getItem('aiModeEnabled') === 'true';
+        const savedAgentMode = localStorage.getItem('agentMode') === 'true';
+        
+        if (savedAIModeEnabled || savedAgentMode) {
+            isAgentMode = true;
+            agentToggle.classList.add('active');
+            if (aiBanner) {
+                aiBanner.style.display = 'block';
+            }
+        }
+        
         agentToggle.addEventListener('click', function() {
             isAgentMode = !isAgentMode;
             agentToggle.classList.toggle('active', isAgentMode);
@@ -24,8 +37,9 @@ function initializeAgentToggle() {
                 aiBanner.style.display = isAgentMode ? 'block' : 'none';
             }
             
-            // Store agent mode state
+            // Store agent mode state with both keys for compatibility
             localStorage.setItem('agentMode', isAgentMode);
+            localStorage.setItem('aiModeEnabled', isAgentMode);
             
             // Log agent mode change
             console.log('AI Agent Mode:', isAgentMode ? 'Activated' : 'Deactivated');
@@ -37,16 +51,6 @@ function initializeAgentToggle() {
                 showNotification('AI Agent Mode Deactivated');
             }
         });
-        
-        // Load saved agent mode state
-        const savedAgentMode = localStorage.getItem('agentMode') === 'true';
-        if (savedAgentMode) {
-            isAgentMode = true;
-            agentToggle.classList.add('active');
-            if (aiBanner) {
-                aiBanner.style.display = 'block';
-            }
-        }
     }
 }
 

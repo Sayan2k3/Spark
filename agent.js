@@ -66,6 +66,14 @@ class AIAgent {
                     if (typeof addToCart === 'function') {
                         addToCart();
                     }
+                    
+                    // Update cart context
+                    const currentCart = this.currentContext.cart_items || [];
+                    const productId = this.currentContext.current_product_id;
+                    if (productId && !currentCart.includes(productId)) {
+                        currentCart.push(productId);
+                        this.updateContext('cart_items', currentCart);
+                    }
                 }
                 break;
             
@@ -175,37 +183,58 @@ class AIAgent {
     }
 
     showSuggestions(suggestions) {
+        // Remove existing suggestions first
+        const existingSuggestions = document.querySelector('.ai-suggestions');
+        if (existingSuggestions) {
+            existingSuggestions.remove();
+        }
+        
         const suggestionsDiv = document.createElement('div');
         suggestionsDiv.className = 'ai-suggestions';
-        suggestionsDiv.innerHTML = `
-            <p>Try saying:</p>
-            <ul>
-                ${suggestions.map(s => `<li>${s}</li>`).join('')}
-            </ul>
-        `;
+        
+        // Group suggestions by demo flow
+        const demoFlows = {
+            'Budget Shopping': suggestions.slice(0, 2),
+            'Product Comparison': suggestions.slice(2, 5),
+            'Quick Actions': suggestions.slice(5, 8),
+            'Navigation': suggestions.slice(8, 10)
+        };
+        
+        let suggestionsHTML = '<h4 style="margin: 0 0 10px 0; color: #333;">Try these demo flows:</h4>';
+        
+        // Show first 4-5 suggestions in a simple list for quick demo
+        const quickSuggestions = suggestions.slice(0, 5);
+        suggestionsHTML += '<ul style="margin: 0; padding-left: 20px; list-style: none;">';
+        quickSuggestions.forEach(suggestion => {
+            suggestionsHTML += `<li style="margin: 5px 0; cursor: pointer; color: #0071dc;" onclick="document.getElementById('aiInput').value='${suggestion}'; handleAICommand();">→ ${suggestion}</li>`;
+        });
+        suggestionsHTML += '</ul>';
+        
+        suggestionsDiv.innerHTML = suggestionsHTML;
         
         // Style the suggestions
         suggestionsDiv.style.cssText = `
             position: fixed;
-            bottom: 20px;
+            bottom: 90px;
             right: 20px;
-            background: #f0f2f5;
-            padding: 15px;
-            border-radius: 8px;
-            max-width: 250px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 380px;
             font-size: 14px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             z-index: 1000;
+            border: 1px solid #e0e0e0;
         `;
         
         document.body.appendChild(suggestionsDiv);
         
-        // Remove after 10 seconds
+        // Remove after 30 seconds (longer for demo)
         setTimeout(() => {
             if (suggestionsDiv.parentNode) {
                 suggestionsDiv.remove();
             }
-        }, 10000);
+        }, 30000);
     }
 
     displayComparison(comparisonData) {
@@ -606,8 +635,37 @@ async function handleAICommand() {
     aiAgent.processResponse(response);
 }
 
+// Check if AI mode is enabled on page load
+function checkAIModeOnLoad() {
+    const isAIModeEnabled = localStorage.getItem('aiModeEnabled') === 'true';
+    
+    if (isAIModeEnabled) {
+        // Enable AI mode UI
+        const agentToggle = document.getElementById('agentToggle');
+        if (agentToggle) {
+            agentToggle.classList.add('active');
+        }
+        
+        // Initialize AI command input
+        initializeAICommandInput();
+        
+        // Get suggestions
+        fetch('http://localhost:8000/api/agent/suggestions')
+            .then(res => res.json())
+            .then(data => {
+                if (data.suggestions) {
+                    aiAgent.showSuggestions(data.suggestions.slice(0, 4));
+                }
+            })
+            .catch(console.error);
+    }
+}
+
 // Enhance the agent toggle functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Check AI mode on page load
+    checkAIModeOnLoad();
+    
     // Wait for the original toggle to be initialized
     setTimeout(() => {
         const agentToggle = document.getElementById('agentToggle');
@@ -617,6 +675,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     // Check the current agent mode state
                     const isActive = agentToggle.classList.contains('active');
+                    
+                    // Save AI mode state to localStorage
+                    localStorage.setItem('aiModeEnabled', isActive);
                     
                     if (isActive) {
                         initializeAICommandInput();
